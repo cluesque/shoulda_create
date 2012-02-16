@@ -1,0 +1,22 @@
+== shoulda_create
+
+Restores should_create functionality to shoulda.
+
+I like using should_create and friends to make assertions about records coming and going in the database.
+
+Shoulda did, but doesn't any more. With this, it can again.
+
+Some ideological dispute, I guess.  I complained to one of the thoughtbot guys, and he said "that's the joy of open source, you can build your own".  Well, here it is.
+
+== Example
+
+  context 'POST to :create' do
+    setup { post :create, :email => 'bob@example.com', :name => 'Bob Dobbs' }
+    should_create :user
+  end
+
+== License
+
+shoulda_create is released under the MIT license:
+
+* http://www.opensource.org/licenses/MIT
