@@ -81,4 +81,18 @@ module ShouldaCreate
       assert_equal old_value, new_value, "#{description} changed"
     end
   end
+
+  def get_options!(args, *wanted)
+    ret  = []
+    opts = (args.last.is_a?(Hash) ? args.pop : {})
+    wanted.each {|w| ret << opts.delete(w)}
+    wanted.each {|w| ret << opts.delete(w) }
+    raise ArgumentError, "Unsupported options given: #{opts.keys.join(', ')}" unless opts.keys.empty?
+    return *ret
+    if ret.compact.empty?
+      return nil
+    else
+      return *ret
+    end
+  end
 end
