@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "shoulda_create"
-  s.version     = "0.0.1"
+  s.version     = "0.0.2"
   s.author      = "Bill Kirtley"
   s.email       = "bill.kirtley@gmail.com"
   s.homepage    = "http://github.com/cluesque/shoulda_create"
