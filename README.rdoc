@@ -8,11 +8,24 @@ Shoulda did, but doesn't any more. With this, it can again.
 
 Some ideological dispute, I guess.  I complained to one of the thoughtbot guys, and he said "that's the joy of open source, you can build your own".  Well, here it is.
 
-== Example
+== Examples
 
   context 'POST to :create' do
     setup { post :create, :email => 'bob@example.com', :name => 'Bob Dobbs' }
+    # simple usage
     should_create :user
+
+    # asserting records are neither created nor destroyed
+    should_not_change_record_count_of :blog_posts
+
+    # asserting a change in some state other than simple row count
+    should_change("number of Bobs", :by => 1){ User.where("name ILIKE '%bob%'").count }
+
+    # the subject can be a class rather than a symbol:
+    should_create Audited::Adapters::ActiveRecord::Audit
+
+    # ... or it can be a table name: (remember to pluralize)
+    should_create 'audits'
   end
 
 == License
