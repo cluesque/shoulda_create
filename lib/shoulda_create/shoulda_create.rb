@@ -1,9 +1,16 @@
 module ShouldaCreate
   def should_change_record_count_of(class_name, amount, action) # :nodoc:
-    klass = class_name.to_s.camelize.constantize
-    var_name = "@_before_change_record_count_#{class_name}"
+    klass = class_name.is_a?(Symbol) ? class_name.to_s.camelize.constantize : class_name
+    var_name = "@_before_change_record_count_#{class_name.to_s.gsub(/:+/, '_')}"
+    counter = lambda do
+      if class_name.is_a?(String)
+        ActiveRecord::Base.connection.select_one("SELECT count(*) FROM #{class_name}")["count"].to_i
+      else
+        klass.count
+      end
+    end
     before = lambda do
-      instance_variable_set var_name, klass.count
+      instance_variable_set var_name, counter.call
     end
     human_name = class_name.to_s.humanize.downcase
     count = 'a'
@@ -13,7 +20,7 @@ module ShouldaCreate
     end
     should "#{action} #{count} #{human_name}", :before => before do
       assert_equal instance_variable_get(var_name) + amount,
-                   klass.count,
+                   counter.call,
                    "Expected to #{action} a #{human_name}"
     end
   end
