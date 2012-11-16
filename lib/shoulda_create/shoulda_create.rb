@@ -47,7 +47,7 @@ module ShouldaCreate
     by, from, to = get_options!([options], :by, :from, :to)
     stmt = "change #{description}"
     stmt << " from #{from.inspect}" if from
-    stmt << " to #{to.inspect}" if to
+    stmt << " to #{to.inspect}" if to && !to.is_a?(Proc)
     stmt << " by #{by.inspect}" if by
 
     if block_given?
@@ -63,6 +63,7 @@ module ShouldaCreate
     should stmt, :before => before do
       old_value = self.instance_variable_get( before_var_name )
       new_value = code.bind(self).call
+      to = to.bind(self).call if to.is_a?(Proc)
       assert_operator from, :===, old_value, "#{description} did not originally match #{from.inspect}" if from
       assert_not_equal old_value, new_value, "#{description} did not change" unless by == 0
       assert_operator to, :===, new_value, "#{description} was not changed to match #{to.inspect}" if to

@@ -26,6 +26,9 @@ Some ideological dispute, I guess.  I complained to one of the thoughtbot guys, 
 
     # ... or it can be a table name: (remember to pluralize)
     should_create 'audits'
+    
+    # the to can be a proc: (when using factories and ids are not known at context setup time)
+    should_change('the user group', :to => lambda{ @group.id }){ @user.reload.group_id }
   end
 
 == License
