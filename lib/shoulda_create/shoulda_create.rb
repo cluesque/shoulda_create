@@ -33,6 +33,10 @@ module ShouldaCreate
     should_change_record_count_of(class_name, 0, 'create')
   end
 
+  def should_not_destroy class_name
+    should_change_record_count_of(class_name, 0, 'destroy')
+  end
+
   def should_create(class_name, options = {})
     count = options[:count] || 1
     should_change_record_count_of(class_name, count, 'create')
