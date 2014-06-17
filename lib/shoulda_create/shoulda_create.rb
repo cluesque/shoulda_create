@@ -30,11 +30,11 @@ module ShouldaCreate
   end
 
   def should_not_create class_name
-    should_change_record_count_of(class_name, 0, 'create')
+    should_change_record_count_of(class_name, 0, 'not create')
   end
 
   def should_not_destroy class_name
-    should_change_record_count_of(class_name, 0, 'destroy')
+    should_change_record_count_of(class_name, 0, 'not destroy')
   end
 
   def should_create(class_name, options = {})
