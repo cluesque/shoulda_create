@@ -92,7 +92,11 @@ module ShouldaCreate
     should "not change #{description}", :before => before do
       old_value = self.instance_variable_get( before_var_name )
       new_value = code.bind(self).call
-      assert_equal old_value, new_value, "#{description} changed"
+      if old_value.nil?
+        assert_nil new_value, "#{description} changed"
+      else
+        assert_equal old_value, new_value, "#{description} changed"
+      end
     end
   end
 
